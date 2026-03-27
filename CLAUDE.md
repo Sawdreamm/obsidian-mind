@@ -29,6 +29,8 @@ Defined in `.claude/commands/`. See [[Skills]] for full documentation.
 | `/wrap-up` | Full session review -- verify notes, indexes, links, suggest improvements |
 | `/dump` | Freeform capture -- dump anything, gets routed to the right notes |
 | `/standup` | Morning kickoff -- load context, review yesterday, surface tasks, priorities |
+| `/self-review` | Write self-assessment for review tool -- projects, competencies, principles |
+| `/review-peer` | Write peer review -- projects, principles, performance summary |
 
 ## Vault Structure
 
@@ -244,14 +246,20 @@ Beyond tags, use these frontmatter properties to enable search and Bases views:
 - `severity: high` -- incident severity
 - `role: incident-lead` -- your role in an incident
 
-## Two Memory Systems
+## Memory System
+
+**All project memories live in the vault.** The `~/.claude/` MEMORY.md is an auto-loaded index that points to vault locations. The `~/.claude/` MEMORY.md is the only file that should exist there -- it is an auto-loaded index. Never create additional memory files in that directory.
 
 | System | Location | Purpose |
 |--------|----------|---------|
-| **Claude Code memory** | `~/.claude/` | Auto-loaded. Workflow prefs, quick-recall. |
-| **Vault memories** | `brain/Memories.md` + topic notes | Part of the graph. Rich, linked knowledge. |
+| **MEMORY.md** | `~/.claude/projects/.../memory/MEMORY.md` | Auto-loaded index only. Pointers to vault notes. |
+| **Vault memories** | `brain/` topic notes | Git-tracked, Obsidian-browsable, linked. All durable knowledge lives here. |
 
-Claude Code memory for session-level preferences. Vault memories for knowledge that benefits from linking and Obsidian browsing.
+When asked to "remember" something:
+1. Find or create the appropriate `brain/` topic note (Gotchas, Patterns, Key Decisions, etc.)
+2. Add the knowledge there with a wikilink to context
+3. Update `brain/Memories.md` index if a new topic note was created
+4. Do NOT create additional files in `~/.claude/projects/.../memory/` beyond MEMORY.md -- they are not version-controlled
 
 ## Agent Guidelines
 
@@ -315,7 +323,7 @@ Five lifecycle hooks in `.claude/settings.json`:
 - Never modify `.obsidian/` config files unless explicitly asked.
 - Preserve existing frontmatter when editing notes.
 - Git sync is handled by the user's preferred method (obsidian-git, manual commits, etc.) -- don't configure git hooks or auto-commit.
-- When asked to "remember" something, write to the relevant memory topic note (not `Memories.md` itself) with a link to context.
+- When asked to "remember" something, write to the relevant `brain/` topic note with a link to context. Never create memory files in `~/.claude/` -- they are not git-tracked.
 - Prefer Obsidian CLI over filesystem when Obsidian is running.
 - **Always invoke Obsidian skills via the Skill tool** before doing vault work. Load `obsidian-markdown` when creating/editing `.md` files. Load `obsidian-cli` when running vault commands. Load `obsidian-bases` or `json-canvas` when working with those file types.
 - Always check for and suggest connections between notes.

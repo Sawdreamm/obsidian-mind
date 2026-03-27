@@ -80,7 +80,7 @@ You: "wrap up"
 
 **Folders group by purpose. Links group by meaning.** A note lives in one folder (its home) but links to many notes (its context). Claude maintains this graph — linking work notes to people, decisions, and competencies automatically. When review season arrives, the backlinks on each competency note are already the evidence trail. A note without links is a bug.
 
-**Two memory systems** keep context across sessions. Claude Code's own memory (`~/.claude/`) stores session preferences and quick recall. The vault's memory system (`brain/Memories.md` + topic notes) stores linked knowledge that benefits from Obsidian's graph — backlinks, search, and browsing. Short-term goes to Claude Code. Long-term goes to the vault.
+**Vault-first memory** keeps context across sessions and machines. All durable knowledge lives in `brain/` topic notes (git-tracked, Obsidian-browsable, linked). Claude Code's `MEMORY.md` (`~/.claude/`) is an auto-loaded index that points to vault locations — never the storage itself. This means memories survive machine changes and are part of the graph.
 
 **Sessions have a designed lifecycle.** The `SessionStart` hook auto-injects your North Star goals, active projects, recent changes, open tasks, and the full vault file listing — Claude starts every session with context, not a blank slate. At the end, say "wrap up" and Claude runs `/wrap-up` — verifying notes, updating indexes, and spotting uncaptured wins. The 285-line `CLAUDE.md` governs everything in between: where to file things, how to link, when to split a note, what to do with decisions and incidents.
 
@@ -111,7 +111,7 @@ Five lifecycle hooks handle routing automatically:
 
 **Weekly**: Run `/vault-audit` to catch orphan notes, broken links, and stale content.
 
-**Review season**: Run `/review-brief H1 2026` and get a structured review prep document with all the evidence already linked.
+**Review season**: Run `/review-brief manager` and get a structured review prep document with all the evidence already linked.
 
 ---
 
@@ -131,6 +131,8 @@ Defined in `.claude/commands/`. Run them in any Claude Code session.
 | `/review-brief` | Generate a review brief (manager or peer version) |
 | `/vault-audit` | Audit indexes, links, orphans, stale context |
 | `/project-archive` | Move a completed project from active/ to archive/, update indexes |
+| `/self-review` | Write your self-assessment for review season — projects, competencies, principles |
+| `/review-peer` | Write a peer review — projects, principles, performance summary |
 
 ---
 
@@ -147,6 +149,7 @@ Specialized agents that run in isolated context windows. They handle heavy opera
 | `review-prep` | Aggregates all performance evidence for a review period | `/review-brief` |
 | `slack-archaeologist` | Full Slack reconstruction — every message, thread, profile | `/incident-capture` |
 | `vault-librarian` | Deep vault maintenance — orphans, broken links, stale notes | `/vault-audit` |
+| `review-fact-checker` | Verify every claim in a review draft against vault sources | `/self-review`, `/review-peer` |
 
 > [!NOTE]
 > Subagents are defined in `.claude/agents/`. You can add your own for domain-specific workflows.
@@ -250,9 +253,9 @@ thinking/               Scratchpad for drafts — promote findings, then delete
 templates/              Obsidian templates with YAML frontmatter
 
 .claude/
-  commands/             10 slash commands
-  agents/               7 subagents
-  scripts/              Hook scripts (session-start, classify, validate, backup)
+  commands/             12 slash commands
+  agents/               8 subagents
+  scripts/              Hook scripts + charcount.sh utility
   skills/               Obsidian + QMD skills
   settings.json         5 hooks configuration
 ```
