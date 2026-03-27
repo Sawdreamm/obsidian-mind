@@ -33,6 +33,8 @@ Custom slash commands, subagents, and reusable workflows. Defined in `.claude/co
 |---------|---------|
 | `/peer-scan` | Deep scan a peer's GitHub PRs for review prep — produces structured analysis saved to `perf/evidence/` |
 | `/review-brief` | Generate review brief (manager or peer version) from vault data |
+| `/self-review` | Write self-assessment for review tool — projects, competencies, principles |
+| `/review-peer` | Write peer review — projects, principles, performance summary |
 
 ### Vault Maintenance
 
@@ -52,6 +54,7 @@ Custom slash commands, subagents, and reusable workflows. Defined in `.claude/co
 | `review-prep` | Aggregates all performance evidence for a given review period | `/review-brief` |
 | `slack-archaeologist` | Full Slack reconstruction — reads every message, thread, profile, produces unified timeline | `/incident-capture` |
 | `vault-librarian` | Deep vault maintenance — orphan detection, broken links, frontmatter validation, stale notes | `/vault-audit` |
+| `review-fact-checker` | Verify every claim in a review draft against vault sources | `/self-review`, `/review-peer` |
 
 Subagents run in isolated context windows via `.claude/agents/`. They don't pollute the main conversation.
 
