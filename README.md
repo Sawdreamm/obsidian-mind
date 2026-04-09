@@ -98,7 +98,7 @@ You: "wrap up"
 1. Clone this repo (or use it as a **GitHub template**)
 2. Open the folder as an **Obsidian vault**
 3. Enable the **Obsidian CLI** in Settings → General (requires Obsidian 1.12+)
-4. Run **`claude`** in the vault directory
+4. Run your agent in the vault directory: **`claude`**, **`codex`**, or **`gemini`**
 5. Fill in **`brain/North Star.md`** with your goals — this grounds every session
 6. Start talking about work
 
@@ -385,21 +385,56 @@ This is a starting point. Adapt it to how you work:
 
 ## 🔄 Upgrading
 
-Already using an older version of obsidian-mind (or any Obsidian vault)? The `/om-vault-upgrade` command migrates your content into the latest template:
+### Ask your agent
+
+The easiest way — just tell your agent:
+
+```
+Update this vault to the latest obsidian-mind from https://github.com/breferrari/obsidian-mind
+```
+
+The agent will pull the latest changes, resolve conflicts, and update infrastructure files. Works with Claude Code, Codex CLI, or Gemini CLI.
+
+### Updating an existing clone
+
+If you cloned the repo directly:
+
+```bash
+cd your-vault
+git pull origin main
+```
+
+New files (`AGENTS.md`, `GEMINI.md`, `.codex/`, `.gemini/`) appear automatically and hook scripts are updated in place.
+
+### Updating a fork
+
+If you forked the repo:
+
+```bash
+git remote add upstream https://github.com/breferrari/obsidian-mind.git
+git fetch upstream
+git merge upstream/main
+```
+
+Resolve any conflicts in files you customized (typically `CLAUDE.md`, `brain/` notes). Infrastructure files (`.claude/scripts/`, `.codex/`, `.gemini/`) should merge cleanly.
+
+### Migrating from an older vault
+
+Using an older version of obsidian-mind (or any Obsidian vault)? The `/om-vault-upgrade` command migrates your content into the latest template:
 
 ```bash
 # 1. Clone the latest obsidian-mind
 git clone https://github.com/breferrari/obsidian-mind.git ~/new-vault
 
-# 2. Open it in Claude Code
-cd ~/new-vault && claude
+# 2. Open it in your agent
+cd ~/new-vault && claude   # or codex, or gemini
 
 # 3. Run the upgrade pointing to your old vault
 /om-vault-upgrade ~/my-old-vault
 ```
 
 The agent will:
-1. **Detect** your vault version (v1–v3.2, or identify it as a non-obsidian-mind vault)
+1. **Detect** your vault version (v1–v3.x, or identify it as a non-obsidian-mind vault)
 2. **Inventory** every file — classify as user content, scaffold, infrastructure, or uncategorized
 3. **Present a migration plan** — you see exactly what will be copied, transformed, and skipped
 4. **Execute** after your approval — transforms frontmatter, fixes wikilinks, rebuilds indexes

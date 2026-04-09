@@ -99,7 +99,7 @@ Decision: defer Redis migration. Win: Sarah praised the auth architecture.
 1. このリポジトリをクローン（または**GitHubテンプレート**として使用）
 2. フォルダを**Obsidianボールト**として開く
 3. 設定 → 一般で**Obsidian CLI**を有効化（Obsidian 1.12以上が必要）
-4. ボールトディレクトリで**`claude`**を実行
+4. ボールトディレクトリでエージェントを実行：**`claude`**、**`codex`**、または**`gemini`**
 5. **`brain/North Star.md`**に目標を記入 — これがすべてのセッションの基盤になります
 6. 仕事について話し始める
 
@@ -386,21 +386,56 @@ YAMLフロントマター付きテンプレート。段階的開示のための`
 
 ## 🔄 アップグレード
 
+### エージェントに頼む
+
+一番簡単な方法 — エージェントに伝えるだけ：
+
+```
+このボールトを最新のobsidian-mindに更新して https://github.com/breferrari/obsidian-mind
+```
+
+エージェントが最新の変更を取得し、コンフリクトを解消し、インフラファイルを更新します。Claude Code、Codex CLI、Gemini CLIで動作します。
+
+### 既存クローンの更新
+
+リポジトリを直接クローンした場合：
+
+```bash
+cd your-vault
+git pull origin main
+```
+
+新しいファイル（`AGENTS.md`、`GEMINI.md`、`.codex/`、`.gemini/`）が自動的に追加され、フックスクリプトも更新されます。
+
+### フォークの更新
+
+リポジトリをフォークした場合：
+
+```bash
+git remote add upstream https://github.com/breferrari/obsidian-mind.git
+git fetch upstream
+git merge upstream/main
+```
+
+カスタマイズしたファイル（通常は`CLAUDE.md`、`brain/`ノート）のコンフリクトを解消してください。インフラファイル（`.claude/scripts/`、`.codex/`、`.gemini/`）はクリーンにマージされます。
+
+### 古いボールトからの移行
+
 obsidian-mindの古いバージョン（または任意のObsidianボールト）をお使いですか？`/om-vault-upgrade`コマンドでコンテンツを最新テンプレートに移行できます：
 
 ```bash
 # 1. 最新のobsidian-mindをクローン
 git clone https://github.com/breferrari/obsidian-mind.git ~/new-vault
 
-# 2. Claude Codeで開く
-cd ~/new-vault && claude
+# 2. エージェントで開く
+cd ~/new-vault && claude   # または codex、gemini
 
 # 3. 古いボールトを指定してアップグレードを実行
 /om-vault-upgrade ~/my-old-vault
 ```
 
 エージェントが以下を行います：
-1. **検出** — ボールトのバージョンを特定（v1〜v3.2、またはobsidian-mind以外のボールトとして識別）
+1. **検出** — ボールトのバージョンを特定（v1〜v3.x、またはobsidian-mind以外のボールトとして識別）
 2. **棚卸し** — すべてのファイルを分類（ユーザーコンテンツ、スキャフォールド、インフラ、未分類）
 3. **移行プランの提示** — コピー、変換、スキップされるものを正確に確認できます
 4. **承認後に実行** — フロントマターの変換、ウィキリンクの修正、インデックスの再構築

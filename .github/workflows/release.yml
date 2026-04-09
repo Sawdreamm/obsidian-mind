@@ -36,6 +36,10 @@ jobs:
             if [[ ! "$VERSION" =~ ^v ]]; then
               VERSION="v$VERSION"
             fi
+            # Normalize bare major (v4 → v4.0) or major.minor (v4.0 stays v4.0)
+            if [[ "$VERSION" =~ ^v[0-9]+$ ]]; then
+              VERSION="${VERSION}.0"
+            fi
           else
             VERSION="${GITHUB_REF#refs/tags/}"
           fi
@@ -69,16 +73,19 @@ jobs:
           cat > /tmp/release_body.md <<'HEADER'
           ## Quick Start
 
-          **Requirements:** [Obsidian](https://obsidian.md), [Claude Code](https://claude.ai/code), [Python 3.8+](https://python.org/downloads)
+          **Requirements:** [Obsidian](https://obsidian.md), [Python 3.8+](https://python.org/downloads), and one of: [Claude Code](https://claude.ai/code) · [Codex CLI](https://github.com/openai/codex) · [Gemini CLI](https://github.com/google-gemini/gemini-cli)
 
           ```bash
           git clone https://github.com/breferrari/obsidian-mind.git
           cd obsidian-mind
-          npm install -g @tobilu/qmd   # optional: semantic search
-          qmd index && qmd embed      # build search index
+          npm install -g @tobilu/qmd && qmd index && qmd embed   # optional: semantic search
           ```
 
-          Or download the vault zip below and extract it into your Obsidian vaults folder. Open it in Claude Code and run `/om-standup`.
+          Open the folder as an Obsidian vault, then run `claude`, `codex`, or `gemini` in the directory and type `/om-standup` (or `om-standup` in Codex).
+
+          Or download the vault zip below and extract it into your Obsidian vaults folder.
+
+          **Already using obsidian-mind?** Just tell your agent: `Update this vault to the latest obsidian-mind from https://github.com/breferrari/obsidian-mind`
 
           HEADER
           # Strip leading whitespace from heredoc
