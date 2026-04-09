@@ -62,7 +62,24 @@ jobs:
 
       - name: Generate changelog
         run: |
-          python3 .github/scripts/generate-changelog.py "$VERSION" > /tmp/release_body.md
+          python3 .github/scripts/generate-changelog.py "$VERSION" > /tmp/changelog_section.md
+
+      - name: Build release body
+        run: |
+          cat > /tmp/release_body.md <<'HEADER'
+          ## Quick Start
+
+          ```bash
+          git clone https://github.com/breferrari/obsidian-mind.git
+          cd obsidian-mind
+          ```
+
+          Or download the vault zip below and extract it into your Obsidian vaults folder. Then open it in [Claude Code](https://claude.ai/code) and run `/om-standup`.
+
+          HEADER
+          # Strip leading whitespace from heredoc
+          sed -i 's/^          //' /tmp/release_body.md
+          cat /tmp/changelog_section.md >> /tmp/release_body.md
 
       - name: Commit changelog and manifest
         run: |
