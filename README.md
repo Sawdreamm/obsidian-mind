@@ -385,6 +385,16 @@ This is a starting point. Adapt it to how you work:
 
 ## 🔄 Upgrading
 
+### Ask your agent
+
+The easiest way — just tell your agent:
+
+```
+Update this vault to the latest obsidian-mind from https://github.com/breferrari/obsidian-mind
+```
+
+The agent will pull the latest changes, resolve conflicts, and update infrastructure files. Works with Claude Code, Codex CLI, or Gemini CLI.
+
 ### Updating an existing clone
 
 If you cloned the repo directly:
@@ -394,7 +404,7 @@ cd your-vault
 git pull origin main
 ```
 
-That's it. New files (`AGENTS.md`, `GEMINI.md`, `.codex/`, `.gemini/`) appear automatically and hook scripts are updated in place.
+New files (`AGENTS.md`, `GEMINI.md`, `.codex/`, `.gemini/`) appear automatically and hook scripts are updated in place.
 
 ### Updating a fork
 

@@ -386,6 +386,16 @@ templates/              带有 YAML frontmatter 的 Obsidian 模板
 
 ## 🔄 升级
 
+### 让 Agent 帮你更新
+
+最简单的方法 — 直接告诉你的 Agent：
+
+```
+把这个 vault 更新到最新的 obsidian-mind https://github.com/breferrari/obsidian-mind
+```
+
+Agent 会拉取最新更改、解决冲突并更新基础设施文件。Claude Code、Codex CLI 和 Gemini CLI 均可使用。
+
 ### 更新已有克隆
 
 如果你直接克隆了仓库：
