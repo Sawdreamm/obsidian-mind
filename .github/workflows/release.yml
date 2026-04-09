@@ -4,6 +4,12 @@ on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g. v3.8 or 3.8)'
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -21,14 +27,42 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Resolve version
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+        run: |
+          if [ -n "$INPUT_VERSION" ]; then
+            VERSION="$INPUT_VERSION"
+            if [[ ! "$VERSION" =~ ^v ]]; then
+              VERSION="v$VERSION"
+            fi
+          else
+            VERSION="${GITHUB_REF#refs/tags/}"
+          fi
+
+          if [[ ! "$VERSION" =~ ^v[0-9]+\.[0-9]+(\.[0-9]+)?$ ]]; then
+            echo "::error::Invalid version format: $VERSION (expected v*.* or v*.*.*)"
+            exit 1
+          fi
+
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+
+      - name: Create tag (manual trigger only)
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        run: |
+          if git ls-remote --tags origin "refs/tags/$VERSION" | grep -q .; then
+            echo "::error::Tag $VERSION already exists"
+            exit 1
+          fi
+          git tag "$VERSION"
+          git push origin "$VERSION"
+
       - name: Run tests
         run: python3 .claude/scripts/test_hooks.py
 
       - name: Generate changelog
         run: |
-          VERSION="${GITHUB_REF#refs/tags/}"
           python3 .github/scripts/generate-changelog.py "$VERSION" > /tmp/release_body.md
-          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
 
       - name: Commit changelog and manifest
         run: |
