@@ -160,7 +160,7 @@ obsidian-mind works with Claude Code, Codex CLI, and Gemini CLI. The vault conve
 
 **Claude Code** — full support. Hooks, commands, subagents, and the memory system all work out of the box.
 
-**Codex CLI** — reads `AGENTS.md` natively. Hook config at `.codex/hooks.json` wires the same hook scripts Claude Code uses — session context, message classification, and write validation work automatically.
+**Codex CLI** — reads `AGENTS.md` natively. Hook config at `.codex/hooks.json` wires the same hook scripts Claude Code uses — session context, message classification, and write validation work automatically. Commands work as regular prompts (e.g. type `om-standup` without the `/` prefix).
 
 **Gemini CLI** — reads `GEMINI.md` natively. Hook config at `.gemini/settings.json` maps Gemini's event names to the shared hook scripts.
 

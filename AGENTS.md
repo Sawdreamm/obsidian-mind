@@ -23,7 +23,10 @@ The hook scripts in `.claude/scripts/` are agent-agnostic Python and shell — n
 
 ## Commands
 
-18 slash commands in `.claude/commands/` — agent-agnostic markdown with YAML frontmatter. Invoke as `/om-standup`, `/om-dump`, etc. in any agent that supports custom commands or skills.
+18 commands in `.claude/commands/` — agent-agnostic markdown with YAML frontmatter.
+
+- **Claude Code / Gemini CLI**: invoke as `/om-standup`, `/om-dump`, etc.
+- **Codex CLI**: type the command name as a regular prompt without the `/` prefix (e.g. `om-standup`). Codex will find and execute the command file.
 
 ## Memory
 
