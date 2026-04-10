@@ -1,16 +1,25 @@
 ---
-date: 2026-04-07
-description: "Vault-specific workflows and slash commands — reusable patterns for review prep, project tracking, and vault maintenance"
+date: 2026-04-11
+description: "Gold Bot skills — trading analysis, backtesting, and vault management slash commands"
 tags:
   - brain
   - index
+  - skills
 ---
 
 # Skills
 
-Custom slash commands, subagents, and reusable workflows. Defined in `.claude/commands/` and `.claude/agents/`.
+Custom slash commands for Gold Sniper Bot workflow.
 
-## Slash Commands
+## Gold Bot Skills (Custom)
+
+| Command | Purpose | Location |
+|---------|---------|----------|
+| `/analyze-gold` | Comprehensive XAUUSD analysis — TradingView MCP + SR Sniper logic + multi-timeframe | `.claude/commands/analyze-gold.md` |
+| `/backtest` | Run backtests with any strategy, compare results, generate reports | `.claude/commands/backtest.md` |
+| `/scan-setup` | Scan for active trading setups matching SR Sniper criteria | `.claude/commands/scan-setup.md` |
+
+## Obsidian Mind Skills (Vault Management)
 
 ### Daily Workflow
 
